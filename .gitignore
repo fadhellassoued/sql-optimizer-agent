@@ -1,0 +1,60 @@
+# ============================================
+# Variables d'environnement 
+# ============================================
+.env
+.env.local
+.env.production
+*.pem
+*.key
+*.crt
+
+# ============================================
+# Python 
+# ============================================
+venv/
+env/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+*.db
+*.sqlite3
+
+# ============================================
+# Node.js 
+# ============================================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.vercel/
+frontend/build/
+frontend/*.log
+frontend/package-lock.json
+frontend/pnpm-lock.yaml
+
+# ============================================
+# Données 
+# ============================================
+backend/data/*.csv
+backend/data/*.db
+backend/data/*.sqlite
+*.csv
+
+# ============================================
+# IDEs et fichiers système
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini

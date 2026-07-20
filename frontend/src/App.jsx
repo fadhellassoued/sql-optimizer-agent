@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const API_URL = 'http://localhost:8000/api/v1/analyze';
+const API_URL = import.meta.env.VITE_API_URL ||'http://localhost:8000/api/v1/analyze';
 
 function App() {
   const [sql, setSql] = useState('SELECT * FROM orders LIMIT 5');

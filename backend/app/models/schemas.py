@@ -16,3 +16,4 @@ class AnalysisResponse(BaseModel):
     explanation: Optional[str] = None
     recommendations: List[str] = []
     execution_time_ms: Optional[float] = None
+    data: Optional[List[Dict[str, Any]]] = None

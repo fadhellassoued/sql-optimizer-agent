@@ -64,6 +64,46 @@ function App() {
   );
 }
 
+function DataTable({ data }) {
+    if (!data || data.length === 0) {
+        return <p>Aucune donnée à afficher.</p>;
+    }
+
+    const columns = Object.keys(data[0]);
+
+    return (
+        <div className="card full-width">
+            <h3>📊 Données extraites</h3>
+            <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+                    <thead>
+                        <tr>
+                            {columns.map(col => (
+                                <th key={col} style={{ textAlign: 'left', padding: '8px', borderBottom: '2px solid #ddd' }}>
+                                    {col}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((row, idx) => (
+                            <tr key={idx}>
+                                {columns.map(col => (
+                                    <td key={col} style={{ padding: '8px', borderBottom: '1px solid #f1f5f9' }}>
+                                        {String(row[col] ?? '')}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {data.length === 100 && <p style={{ fontStyle: 'italic', marginTop: '8px' }}>Affichage des 100 premières lignes.</p>}
+            </div>
+        </div>
+    );
+}
+
+
 function ResultDisplay({ result }) {
   return (
     <div className="result-grid">
@@ -110,6 +150,7 @@ function ResultDisplay({ result }) {
           <p>Aucune recommandation supplémentaire</p>
         )}
       </div>
+      <DataTable data={result.data} />
     </div>
   );
 }

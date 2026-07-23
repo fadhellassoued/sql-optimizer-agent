@@ -29,10 +29,12 @@ async def analyze_query(request: QueryRequest):
             plan = await get_execution_plan(sql)
         except Exception:
             plan = {"error": "Impossible d'obtenir le plan d'exécution"}
-
+        
         # 3. Optimisation
         opt_result = await optimize_sql(sql)
         optimized = opt_result.get("optimized_sql", sql)
+        
+        data = await execute_query(sql)  # On exécute la requête originale
 
         # 4. Explication (via Gemini)
         explanation = await explain_query(sql, plan, issues)
@@ -52,7 +54,8 @@ async def analyze_query(request: QueryRequest):
             issues=issues,
             explanation=explanation,
             recommendations=recommendations,
-            execution_time_ms=round(elapsed, 2)
+            execution_time_ms=round(elapsed, 2),
+            data=data
         )
 
     except Exception as e:

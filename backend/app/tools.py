@@ -5,6 +5,7 @@ from app.core.database import AsyncSessionLocal
 from app.config import settings
 import json
 import groq
+from typing import List, Dict, Any
 
 # Initialize Groq client
 client = groq.Groq(api_key=settings.GROQ_API_KEY)
@@ -213,3 +214,21 @@ async def estimate_query_cost(sql: str, plan: dict) -> dict:
         }
     except Exception as e:
         return {"cost_usd": 0.0, "bytes_scanned": 0, "details": f"Erreur : {str(e)}"}
+
+async def execute_query(sql: str, limit: int = 100) -> List[Dict]:
+    """
+    Exécute une requête SQL et retourne les résultats sous forme de liste de dictionnaires.
+    Ajoute automatiquement une clause LIMIT si elle est absente.
+    """
+    async with AsyncSessionLocal() as session:
+        # Ajouter LIMIT si absent
+        parsed = parse_one(sql, dialect="postgres")
+        if not parsed.find(sqlglot.expressions.Limit):
+            parsed = parsed.limit(limit)
+        limited_sql = parsed.sql(dialect="postgres")
+        
+        result = await session.execute(text(limited_sql))
+        rows = result.fetchall()
+        columns = result.keys()
+        data = [dict(zip(columns, row)) for row in rows]
+        return data

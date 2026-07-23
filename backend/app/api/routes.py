@@ -7,7 +7,8 @@ from app.tools import (
     optimize_sql,
     explain_query,
     recommend_structures,
-    estimate_query_cost
+    estimate_query_cost,
+    execute_query
 )
 import time
 
